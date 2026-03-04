@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Table(name = "users")
 public class User {
 
     @Id
@@ -14,14 +15,18 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @Column(nullable = false)
+    private String password;
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Wallet wallet;
 
     public User() {
     }
 
-    public User(String email) {
+    public User(String email, String password) {
         this.email = email;
+        this.password = password;
     }
 
     public void assignWallet(Wallet wallet) {
@@ -35,6 +40,10 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public Wallet getWallet() {
