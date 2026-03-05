@@ -1,8 +1,10 @@
 package com.berk.digitalwallet.entity;
 
+import com.berk.digitalwallet.exception.InsufficientBalanceException;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -15,6 +17,9 @@ public class Wallet {
 
     @Column(nullable = false)
     private BigDecimal balance = BigDecimal.ZERO;
+
+    @Column
+    private LocalDateTime lastRewardAt;
 
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false, unique = true)
@@ -35,8 +40,29 @@ public class Wallet {
         return user;
     }
 
+    public LocalDateTime getLastRewardAt() {
+        return lastRewardAt;
+    }
+
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public void setLastRewardAt(LocalDateTime lastRewardAt) {
+        this.lastRewardAt = lastRewardAt;
+    }
+
+    public void deposit(BigDecimal amount) {
+        this.balance = this.balance.add(amount);
+    }
+
+    public void withdraw(BigDecimal amount) {
+
+        if(this.balance.compareTo(amount) < 0) {
+            throw new InsufficientBalanceException("Insufficient balance");
+        }
+
+        this.balance = this.balance.subtract(amount);
     }
 
     @Override

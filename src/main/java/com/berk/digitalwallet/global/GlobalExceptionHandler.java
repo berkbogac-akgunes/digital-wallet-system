@@ -1,7 +1,9 @@
 package com.berk.digitalwallet.global;
 
 import com.berk.digitalwallet.exception.EmailAlreadyExistsException;
+import com.berk.digitalwallet.exception.InsufficientBalanceException;
 import com.berk.digitalwallet.exception.InvalidCredentialsException;
+import com.berk.digitalwallet.exception.RewardCooldownException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,6 +22,18 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(EmailAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponse handleEmailAlreadyExistsException(EmailAlreadyExistsException ex) {
+        return new ErrorResponse(ex.getMessage());
+    }
+
+    @ExceptionHandler(InsufficientBalanceException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handleInsufficientBalanceException(InsufficientBalanceException ex) {
+        return new ErrorResponse(ex.getMessage());
+    }
+
+    @ExceptionHandler(RewardCooldownException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handleRewardCooldownException(RewardCooldownException ex) {
         return new ErrorResponse(ex.getMessage());
     }
 

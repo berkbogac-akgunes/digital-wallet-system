@@ -17,8 +17,9 @@ public class Transaction {
     @Column(nullable = false)
     private BigDecimal amount;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String type;
+    private TransactionType type;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
@@ -30,7 +31,7 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(BigDecimal amount, String type, Wallet wallet) {
+    public Transaction(BigDecimal amount, TransactionType type, Wallet wallet) {
         this.amount = amount;
         this.type = type;
         this.createdAt = LocalDateTime.now();
@@ -45,7 +46,7 @@ public class Transaction {
         return amount;
     }
 
-    public String getType() {
+    public TransactionType getType() {
         return type;
     }
 
