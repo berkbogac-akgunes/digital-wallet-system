@@ -1,26 +1,28 @@
 services:
-
   postgres:
-    image: postgres:16
+    image: postgres:15
     container_name: wallet-db
+    restart: always
     environment:
       POSTGRES_DB: walletdb
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: Kafka123
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - digitalwallet_postgres_data:/var/lib/postgresql/data
 
   backend:
     build: .
     container_name: wallet-backend
+    restart: on-failure
     depends_on:
       - postgres
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/walletdb
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
+        DB_USERNAME: postgres
+        DB_PASSWORD: Kafka123
+        JWT_SECRET: cok-uzun-ve-guvenli-bir-secret-key-1234567890
+        SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/walletdb
     ports:
       - "8080:8080"
 
@@ -33,4 +35,4 @@ services:
       - "5173:80"
 
 volumes:
-  postgres_data:
+  digitalwallet_postgres_data:
