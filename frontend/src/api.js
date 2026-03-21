@@ -1,4 +1,4 @@
-const API = import.meta.env.VITE_API_URL;
+const API = "http://13.62.99.211:8080";
 
 export function getToken() {
   return localStorage.getItem("token")
