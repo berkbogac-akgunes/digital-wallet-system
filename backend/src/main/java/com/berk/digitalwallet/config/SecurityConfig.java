@@ -1,5 +1,4 @@
 package com.berk.digitalwallet.config;
-import org.springframework.http.HttpMethod;
 
 import com.berk.digitalwallet.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
@@ -32,7 +31,6 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
