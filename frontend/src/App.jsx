@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { getBalance, claimReward, withdraw, getTransactions, login, register } from "./api";
 import coinSound from "./assets/coin-sound.mp3"
 import purchaseSound from "./assets/purchase-sound.mp3"
+import pixelcoin from "./assets/pixel-coin.png"
 
 function App() {
 
@@ -147,7 +148,7 @@ function App() {
   return (
     <>
       <div
-        className="min-h-screen flex flex-col items-center justify-center bg-center bg-no-repeat bg-[length:100%_100%]"
+        className="min-h-screen flex flex-col items-center bg-center bg-no-repeat bg-[length:100%_100%] pt-24"
         style={{ backgroundImage: `url(${backgroundImg})`}}
       >
 
@@ -157,7 +158,7 @@ function App() {
           </div>
         )}
 
-        <div className="absolute top-6 flex justify-center w-full">
+        <div className="fixed top-6 flex justify-center w-full">
 
         <div className="flex items-center gap-3 bg-white/30 backdrop-blur-md rounded-xl px-4 py-2">
 
@@ -215,7 +216,7 @@ function App() {
 
     </div>
 
-      <div className="w-[420px] rounded-3xl bg-white/20 backdrop-blur-lg border border-white/30 shadow-xl p-8">
+      <div className="w-[420px] mt-10 rounded-3xl bg-white/20 backdrop-blur-lg border border-white/30 shadow-xl p-8">
           
         <h1 className="text-center text-2xl mb-6 text-white">
           Digital Wallet
@@ -239,7 +240,7 @@ function App() {
               : "hover:scale-110"
           }`}
           >
-          🪙
+          <img className={"w-40"}  src={pixelcoin} alt="coin" />
           </button>
 
           {cooldown > 0 && (
@@ -295,8 +296,8 @@ function App() {
               <div key={t.createdAt + t.amount} className="flex justify-between bg-white/10 px-2 py-1 rounded">
 
                 <span>{t.type === "WITHDRAW" ? "PURCHASED": "EARNED"}</span>
-                <span className={t.type === "WITHDRAW" ? "text-red-400" : "text-green-400"}>
-                  {t.amount} 🪙
+                <span className= {`flex items-center gap-1 ${t.type === "WITHDRAW" ? "text-red-400" : "text-green-400"}`}>
+                  {t.amount} <img className={"w-4"}  src={pixelcoin} alt="coin" />
                 </span>
 
               </div>

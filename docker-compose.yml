@@ -13,7 +13,7 @@ services:
       - digitalwallet_postgres_data:/var/lib/postgresql/data
 
   backend:
-    build: .
+    build: ./backend
     container_name: wallet-backend
     restart: on-failure
     depends_on:
