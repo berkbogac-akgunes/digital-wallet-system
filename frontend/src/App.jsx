@@ -43,7 +43,6 @@ function App() {
     const savedEmail = localStorage.getItem("email")
 
     if(token){
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setLoggedIn(true)
       setUserEmail(savedEmail)
 
@@ -72,17 +71,19 @@ function App() {
 
     try{
       await claimReward()
+
+      coinAudio.current.play()
+
+      setBalance(data.balance)
+      await loadTransactions()
+
+      showMessage(`🎉 + ${data.earned} COIN kazandın!`)
+
+      setCooldown(5)
     } catch(e){
       showMessage(e.message)
       return
     }
-
-    coinAudio.current.play()
-
-    await loadBalance()
-    await loadTransactions()
-
-    setCooldown(5)
   }
 
   async function buyItem(price){

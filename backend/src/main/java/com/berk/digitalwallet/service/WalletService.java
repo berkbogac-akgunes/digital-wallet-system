@@ -1,6 +1,7 @@
 package com.berk.digitalwallet.service;
 
 import com.berk.digitalwallet.dto.TransactionResponse;
+import com.berk.digitalwallet.dto.RewardResponse;
 import com.berk.digitalwallet.entity.Transaction;
 import com.berk.digitalwallet.entity.TransactionType;
 import com.berk.digitalwallet.entity.User;
@@ -103,7 +104,7 @@ public class WalletService {
     }
 
     @Transactional
-    public BigDecimal claimReward(String email) {
+    public RewardResponse claimReward(String email) {
 
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new InvalidCredentialsException("User not found"));
@@ -118,7 +119,8 @@ public class WalletService {
             throw new RewardCooldownException("Reward cooldown not finished");
         }
 
-        BigDecimal reward = BigDecimal.ONE;
+        int randomAmount = 1 + (int)(Math.random() * 5);
+        BigDecimal reward = new BigDecimal(randomAmount);
 
         wallet.deposit(reward);
 
@@ -132,7 +134,7 @@ public class WalletService {
 
         transactionRepository.save(transaction);
 
-        return wallet.getBalance();
+        return new RewardResponse(reward, wallet.getBalance());
     }
 
 }

@@ -1,6 +1,7 @@
 package com.berk.digitalwallet.controller;
 
 import com.berk.digitalwallet.dto.DepositRequest;
+import com.berk.digitalwallet.dto.RewardResponse;
 import com.berk.digitalwallet.dto.TransactionResponse;
 import com.berk.digitalwallet.dto.WithdrawRequest;
 import com.berk.digitalwallet.service.WalletService;
@@ -59,7 +60,7 @@ public class WalletController {
     }
 
     @PostMapping("/reward")
-    public BigDecimal claimReward(Authentication authentication) {
+    public RewardResponse claimReward(Authentication authentication) {
 
         String email = authentication.getName();
 
