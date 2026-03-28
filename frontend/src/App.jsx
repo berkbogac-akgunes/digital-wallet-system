@@ -161,18 +161,12 @@ function App() {
         style={{ backgroundImage: `url(${backgroundImg})`}}
       >
 
-        {message && (
-          <div className="absolute bg-green-500 text-white px-6 py-2 rounded-xl shadow-lg animate-bounce">
-            {message}
-          </div>
-        )}
-
         <div className="flex justify-center w-full py-3">
 
         <div className="flex items-center gap-3 bg-white/30 backdrop-blur-md rounded-xl px-4 py-2">
 
         <span className="text-white font-semibold mr-3">
-          Pixel Wallet
+          Digital Wallet
         </span>
 
         {!loggedIn && (
@@ -225,7 +219,13 @@ function App() {
 
     </div>
 
-      <div className="w-[420px] mt-10 rounded-3xl bg-white/20 backdrop-blur-lg border border-white/30 shadow-xl p-8">
+      {message && (
+                <div className="bg-green-500 text-white px-6 py-2 rounded-xl shadow-lg animate-bounce">
+                  {message}
+                </div>
+              )}
+
+      <div className="w-[420px] mt-16 rounded-3xl bg-white/20 backdrop-blur-lg border border-white/30 shadow-xl p-8">
           
         <h1 className="text-center text-2xl mb-6 text-white">
           Digital Wallet
