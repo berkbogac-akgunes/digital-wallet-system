@@ -1,5 +1,6 @@
 package com.berk.digitalwallet.service;
 
+import com.berk.digitalwallet.dto.InventoryResponse;
 import com.berk.digitalwallet.dto.TransactionResponse;
 import com.berk.digitalwallet.dto.RewardResponse;
 import com.berk.digitalwallet.entity.*;
@@ -148,10 +149,13 @@ public class WalletService {
     }
 
     @Transactional(readOnly = true)
-    public List<Inventory> getInventory(String email) {
+    public List<InventoryResponse> getInventory(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new InvalidCredentialsException("User not found"));
-        return inventoryRepository.findByUser(user);
+        return inventoryRepository.findByUser(user)
+                .stream()
+                .map(i -> new InventoryResponse(i.getItemName(), i.getQuantity()))
+                .toList();
     }
 
 }

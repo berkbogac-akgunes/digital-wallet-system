@@ -1,9 +1,6 @@
 package com.berk.digitalwallet.controller;
 
-import com.berk.digitalwallet.dto.DepositRequest;
-import com.berk.digitalwallet.dto.RewardResponse;
-import com.berk.digitalwallet.dto.TransactionResponse;
-import com.berk.digitalwallet.dto.WithdrawRequest;
+import com.berk.digitalwallet.dto.*;
 import com.berk.digitalwallet.entity.Inventory;
 import com.berk.digitalwallet.service.WalletService;
 import jakarta.validation.Valid;
@@ -69,7 +66,7 @@ public class WalletController {
     }
 
     @GetMapping("/inventory")
-    public List<Inventory> getInventory(Authentication authentication) {
+    public List<InventoryResponse> getInventory(Authentication authentication) {
         String email = authentication.getName();
         return walletService.getInventory(email);
     }

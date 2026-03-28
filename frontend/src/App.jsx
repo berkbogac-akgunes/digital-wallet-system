@@ -313,7 +313,7 @@ function App() {
             ))}
 
             {loggedIn && (
-              <div className="fixed left-6 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-lg border border-white/30 rounded-2xl p-4 w-36">
+              <div className="fixed left-6 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-lg border border-white/30 rounded-2xl p-4 w-48">
                 <div className="text-white text-sm text-center mb-3">🎒 Inventory</div>
                 {inventory.length === 0 ? (
                   <div className="text-white/50 text-xs text-center">Empty</div>
