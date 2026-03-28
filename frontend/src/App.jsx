@@ -157,17 +157,17 @@ function App() {
   return (
     <>
       <div
-        className="min-h-screen flex flex-col items-center bg-center bg-no-repeat bg-[length:100%_100%] pt-24"
+        className="min-h-screen flex flex-col items-center bg-center bg-no-repeat bg-[length:100%_100%]"
         style={{ backgroundImage: `url(${backgroundImg})`}}
       >
 
         {message && (
-          <div className="absolute top-24 bg-green-500 text-white px-6 py-2 rounded-xl shadow-lg animate-bounce">
+          <div className="absolute bg-green-500 text-white px-6 py-2 rounded-xl shadow-lg animate-bounce">
             {message}
           </div>
         )}
 
-        <div className="fixed top-6 flex justify-center w-full">
+        <div className="flex justify-center w-full py-3">
 
         <div className="flex items-center gap-3 bg-white/30 backdrop-blur-md rounded-xl px-4 py-2">
 
