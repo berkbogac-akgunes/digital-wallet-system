@@ -70,7 +70,7 @@ function App() {
     if(cooldown > 0) return
 
     try{
-      await claimReward()
+      const data = await claimReward()
 
       coinAudio.current.play()
 
