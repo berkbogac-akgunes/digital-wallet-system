@@ -4,9 +4,11 @@ import com.berk.digitalwallet.dto.RewardResponse;
 import com.berk.digitalwallet.entity.Transaction;
 import com.berk.digitalwallet.entity.TransactionType;
 import com.berk.digitalwallet.entity.User;
+import com.berk.digitalwallet.entity.Inventory;
 import com.berk.digitalwallet.entity.Wallet;
 import com.berk.digitalwallet.exception.InvalidCredentialsException;
 import com.berk.digitalwallet.exception.RewardCooldownException;
+import com.berk.digitalwallet.repository.InventoryRepository;
 import com.berk.digitalwallet.repository.TransactionRepository;
 import com.berk.digitalwallet.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,6 +34,9 @@ class WalletServiceTest {
 
     @Mock
     private TransactionRepository transactionRepository;
+
+    @Mock
+    private InventoryRepository inventoryRepository;
 
     @InjectMocks
     private WalletService walletService;
@@ -68,11 +73,13 @@ class WalletServiceTest {
     void withdraw_success() {
         wallet.deposit(new BigDecimal("200"));
         when(userRepository.findByEmail("test@test.com")).thenReturn(Optional.of(user));
+        when(inventoryRepository.findByUserAndItemName(any(), any())).thenReturn(Optional.empty());
 
-        BigDecimal result = walletService.withdraw("test@test.com", new BigDecimal("50"));
+        BigDecimal result = walletService.withdraw("test@test.com", new BigDecimal("50"), "Apple");
 
         assertEquals(new BigDecimal("150"), result);
         verify(transactionRepository).save(any(Transaction.class));
+        verify(inventoryRepository).save(any(Inventory.class));
     }
 
     @Test
