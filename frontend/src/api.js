@@ -39,6 +39,11 @@ export async function getBalance() {
     headers: authHeaders()
   })
 
+  if(!res.ok){
+      const error = await res.json()
+      throw new Error(error.message)
+    }
+
   return res.json()
 }
 
@@ -49,16 +54,26 @@ export async function claimReward() {
     headers: authHeaders()
   })
 
+  if(!res.ok){
+      const error = await res.json()
+      throw new Error(error.message)
+    }
+
   return res.json()
 }
 
 export async function withdraw(amount) {
 
-  await fetch(API + "/wallet/withdraw", {
+  const res = await fetch(API + "/wallet/withdraw", {
     method: "POST",
     headers: authHeaders(),
     body: JSON.stringify({ amount })
   })
+
+  if(!res.ok) {
+    const error = await res.json()
+    throw new Error(error.message)
+  }
 }
 
 export async function getTransactions() {
@@ -66,6 +81,11 @@ export async function getTransactions() {
   const res = await fetch(API + "/wallet/transactions", {
     headers: authHeaders()
   })
+
+  if(!res.ok){
+      const error = await res.json()
+      throw new Error(error.message)
+    }
 
   return res.json()
 }
