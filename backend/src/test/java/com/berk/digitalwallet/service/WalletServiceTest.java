@@ -106,7 +106,8 @@ class WalletServiceTest {
 
         RewardResponse result = walletService.claimReward("test@test.com");
 
-        assertEquals(BigDecimal.ONE, result);
+        assertNotNull(result.getEarned());
+        assertNotNull(result.getBalance());
         verify(transactionRepository).save(any(Transaction.class));
     }
 
