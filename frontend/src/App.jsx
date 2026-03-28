@@ -132,6 +132,7 @@ function App() {
 
       await loadBalance()
       await loadTransactions()
+      await loadInventory()
     } catch{
       alert("Login failed")
     }
@@ -151,6 +152,7 @@ function App() {
 
     await loadBalance()
     await loadTransactions()
+    await loadInventory()
   } catch(e){
     console.log(e)
     showMessage(e.message)
