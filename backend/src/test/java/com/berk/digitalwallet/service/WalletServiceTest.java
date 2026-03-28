@@ -1,5 +1,6 @@
 package com.berk.digitalwallet.service;
 
+import com.berk.digitalwallet.dto.RewardResponse;
 import com.berk.digitalwallet.entity.Transaction;
 import com.berk.digitalwallet.entity.TransactionType;
 import com.berk.digitalwallet.entity.User;
@@ -103,7 +104,7 @@ class WalletServiceTest {
     void claimReward_success() {
         when(userRepository.findByEmail("test@test.com")).thenReturn(Optional.of(user));
 
-        BigDecimal result = walletService.claimReward("test@test.com");
+        RewardResponse result = walletService.claimReward("test@test.com");
 
         assertEquals(BigDecimal.ONE, result);
         verify(transactionRepository).save(any(Transaction.class));
@@ -111,7 +112,7 @@ class WalletServiceTest {
 
     @Test
     void claimReward_cooldownNotFinished_throwsException() {
-        wallet.setLastRewardAt(LocalDateTime.now().minusSeconds(2)); // 5 saniye dolmamış
+        wallet.setLastRewardAt(LocalDateTime.now().minusSeconds(2));
         when(userRepository.findByEmail("test@test.com")).thenReturn(Optional.of(user));
 
         assertThrows(RewardCooldownException.class,
