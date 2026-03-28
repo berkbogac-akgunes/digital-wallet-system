@@ -11,12 +11,20 @@ public class WithdrawRequest {
     @Positive
     private BigDecimal amount;
 
-    public WithdrawRequest(BigDecimal amount) {
+    @NotNull
+    private String itemName;
+
+    public WithdrawRequest(BigDecimal amount, String itemName) {
         this.amount = amount;
+        this.itemName = itemName;
     }
 
     public BigDecimal getAmount() {
         return amount;
+    }
+
+    public String getItemName() {
+        return itemName;
     }
 
 }

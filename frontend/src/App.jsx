@@ -1,6 +1,6 @@
 import backgroundImg from "./assets/pixel-background.png"
 import { useState, useEffect, useRef } from "react";
-import { getBalance, claimReward, withdraw, getTransactions, login, register } from "./api";
+import { getBalance, claimReward, withdraw, getTransactions, login, register, getInventory } from "./api";
 import coinSound from "./assets/coin-sound.mp3"
 import purchaseSound from "./assets/purchase-sound.mp3"
 import pixelcoin from "./assets/pixel-coin.png"
@@ -15,6 +15,7 @@ function App() {
   const [cooldown, setCooldown] = useState(0)
   const [message, setMessage] = useState("")
   const [userEmail, setUserEmail] = useState("")
+  const [inventory, setInventory] = useState([])
 
   const coinAudio = useRef(new Audio(coinSound))
   const purchaseAudio = useRef(new Audio(purchaseSound))
@@ -37,6 +38,11 @@ function App() {
     setTransactions(data);
   }
 
+  async function loadInventory(){
+    const data = await getInventory();
+    setInventory(data);
+  }
+
   useEffect(() => {
 
     const token = localStorage.getItem("token")
@@ -48,6 +54,7 @@ function App() {
 
       loadBalance()
       loadTransactions()
+      loadInventory()
     }
 
   }, []);
@@ -86,14 +93,15 @@ function App() {
     }
   }
 
-  async function buyItem(price){
+  async function buyItem(price, itemName){
       try{
-      await withdraw(price);
+      await withdraw(price, itemName);
 
       purchaseAudio.current.play()
 
       await loadBalance();
       await loadTransactions();
+      await loadInventory();
     } catch(e){
       showMessage(e.message)
     }
@@ -253,7 +261,7 @@ function App() {
           <div className="mt-8 flex gap-3 justify-center">
 
           <button
-            onClick={() => buyItem(3)}
+            onClick={() => buyItem(3), "Apple"}
             disabled={!loggedIn}
             className="flex flex-col items-center bg-white/20 p-4 rounded-xl hover:bg-white/30 hover:scale-105 transition"
             >
@@ -263,7 +271,7 @@ function App() {
           </button>
 
           <button
-            onClick={() => buyItem(10)}
+            onClick={() => buyItem(10), "Burger"}
             disabled={!loggedIn}
             className="flex flex-col items-center bg-white/20 p-4 rounded-xl hover:bg-white/30 hover:scale-105 transition"
             >
@@ -273,7 +281,7 @@ function App() {
           </button>
 
           <button
-            onClick={() => buyItem(20)}
+            onClick={() => buyItem(20), "Pizza"}
             disabled={!loggedIn}
             className="flex flex-col items-center bg-white/20 p-4 rounded-xl hover:bg-white/30 hover:scale-105 transition"
             >
@@ -303,6 +311,27 @@ function App() {
 
               </div>
             ))}
+
+            {loggedIn && (
+              <div className="fixed left-6 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-lg border border-white/30 rounded-2xl p-4 w-36">
+                <div className="text-white text-sm text-center mb-3">🎒 Inventory</div>
+                {inventory.length === 0 ? (
+                  <div className="text-white/50 text-xs text-center">Empty</div>
+                ) : (
+                  <div className="flex flex-col gap-2">
+                    {inventory.map((item) => (
+                      <div key={item.id} className="flex items-center justify-between bg-white/10 px-2 py-1 rounded-lg">
+                        <span className="text-lg">
+                          {item.itemName === "Apple" ? "🍎" : item.itemName === "Burger" ? "🍔" : "🍕"}
+                        </span>
+                        <span className="text-white text-xs">{item.itemName}</span>
+                        <span className="text-orange-400 text-xs">x{item.quantity}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
 
           </div>
         </div>

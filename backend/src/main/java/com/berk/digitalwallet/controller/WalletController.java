@@ -4,6 +4,7 @@ import com.berk.digitalwallet.dto.DepositRequest;
 import com.berk.digitalwallet.dto.RewardResponse;
 import com.berk.digitalwallet.dto.TransactionResponse;
 import com.berk.digitalwallet.dto.WithdrawRequest;
+import com.berk.digitalwallet.entity.Inventory;
 import com.berk.digitalwallet.service.WalletService;
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
@@ -48,7 +49,7 @@ public class WalletController {
 
         String email = authentication.getName();
 
-        return walletService.withdraw(email, request.getAmount());
+        return walletService.withdraw(email, request.getAmount(), request.getItemName());
     }
 
     @GetMapping("/transactions")
@@ -65,6 +66,12 @@ public class WalletController {
         String email = authentication.getName();
 
         return walletService.claimReward(email);
+    }
+
+    @GetMapping("/inventory")
+    public List<Inventory> getInventory(Authentication authentication) {
+        String email = authentication.getName();
+        return walletService.getInventory(email);
     }
 
 }

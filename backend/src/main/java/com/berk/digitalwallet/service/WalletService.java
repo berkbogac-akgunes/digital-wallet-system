@@ -2,11 +2,9 @@ package com.berk.digitalwallet.service;
 
 import com.berk.digitalwallet.dto.TransactionResponse;
 import com.berk.digitalwallet.dto.RewardResponse;
-import com.berk.digitalwallet.entity.Transaction;
-import com.berk.digitalwallet.entity.TransactionType;
-import com.berk.digitalwallet.entity.User;
-import com.berk.digitalwallet.entity.Wallet;
+import com.berk.digitalwallet.entity.*;
 import com.berk.digitalwallet.exception.RewardCooldownException;
+import com.berk.digitalwallet.repository.InventoryRepository;
 import org.springframework.transaction.annotation.Transactional;
 import com.berk.digitalwallet.exception.InvalidCredentialsException;
 import com.berk.digitalwallet.repository.TransactionRepository;
@@ -17,16 +15,19 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 @Service
 public class WalletService {
 
     private final UserRepository userRepository;
     private final TransactionRepository transactionRepository;
+    private final InventoryRepository inventoryRepository;
 
-    public WalletService(UserRepository userRepository, TransactionRepository transactionRepository) {
+    public WalletService(UserRepository userRepository, TransactionRepository transactionRepository, InventoryRepository inventoryRepository) {
         this.userRepository = userRepository;
         this.transactionRepository = transactionRepository;
+        this.inventoryRepository = inventoryRepository;
     }
 
     @Transactional
@@ -62,7 +63,7 @@ public class WalletService {
     }
 
     @Transactional
-    public BigDecimal withdraw(String email, BigDecimal amount) {
+    public BigDecimal withdraw(String email, BigDecimal amount, String itemName) {
 
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -78,6 +79,15 @@ public class WalletService {
         );
 
         transactionRepository.save(transaction);
+
+        Optional<Inventory> existing = inventoryRepository.findByUserAndItemName(user, itemName);
+
+        if(existing.isPresent()){
+            existing.get().setQuantity(existing.get().getQuantity() + 1);
+            inventoryRepository.save(existing.get());
+        } else {
+            inventoryRepository.save(new Inventory(user, itemName, 1));
+        }
 
         return wallet.getBalance();
 
@@ -135,6 +145,13 @@ public class WalletService {
         transactionRepository.save(transaction);
 
         return new RewardResponse(reward, wallet.getBalance());
+    }
+
+    @Transactional(readOnly = true)
+    public List<Inventory> getInventory(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new InvalidCredentialsException("User not found"));
+        return inventoryRepository.findByUser(user);
     }
 
 }

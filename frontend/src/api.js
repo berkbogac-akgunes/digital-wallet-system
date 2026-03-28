@@ -62,12 +62,12 @@ export async function claimReward() {
   return res.json()
 }
 
-export async function withdraw(amount) {
+export async function withdraw(amount, itemName) {
 
   const res = await fetch(API + "/wallet/withdraw", {
     method: "POST",
     headers: authHeaders(),
-    body: JSON.stringify({ amount })
+    body: JSON.stringify({ amount, itemName })
   })
 
   if(!res.ok) {
@@ -105,4 +105,17 @@ export async function register(email, password){
     throw new Error(error.message)
   }
 
+}
+
+export async function getInventory() {
+  const res = await fetch(API + "/wallet/inventory", {
+    headers: authHeaders()
+  })
+
+  if(!res.ok){
+    const error = await res.json()
+    throw new Error(error.message)
+  }
+
+  return res.json()
 }
