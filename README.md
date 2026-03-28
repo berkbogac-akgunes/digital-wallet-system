@@ -5,22 +5,20 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue)
 ![Docker](https://img.shields.io/badge/Docker-Compose-blue)
 
-A backend-focused digital wallet application built with **Spring Boot**.  
-The system provides wallet management, transaction tracking, and a reward-based coin system.
+Production-style backend system built with Spring Boot, implementing secure JWT-based authentication, wallet management, and transaction tracking. Containerized with Docker, deployed on AWS EC2, and supported by a CI/CD pipeline using GitHub Actions.
 
-A simple React frontend is included only as a lightweight UI to interact with the backend API.
+🔗 Live Demo: http://13.62.99.211:5173
 
 ---
 
-## Features
+## Overview
 
-- User registration and login
-- JWT authentication
-- Wallet balance tracking
-- Deposit and withdraw operations
-- Reward system with cooldown
-- Transaction history
-- Simple pixel-style UI
+This project simulates a real-world backend system with:
+- Secure authentication (JWT)
+- Wallet balance management
+- Transaction tracking
+- Reward system with cooldown logic
+- RESTful API design with layered architecture
 
 ---
 
@@ -30,83 +28,85 @@ A simple React frontend is included only as a lightweight UI to interact with th
 - Java 17
 - Spring Boot
 - Spring Security
-- JWT Authentication
-- PostgreSQL
 - JPA / Hibernate
-
-### Frontend
+- PostgreSQL
+  
+### Frontend (Lightweight UI)
 - React
 - Vite
-- TailwindCSS
+- Tailwind CSS
 
 ### Infrastructure
-- Docker
-- Docker Compose
+- Docker / Docker Compose
+- AWS EC2 (Deployment)
+- GitHub Actions (CI/CD)
+  
+### Testing
+- Mockito (Unit Testing)
 
 ---
 
-## Project Structure
-
---digitalwallet--
-
-backend - Spring Boot wallet API  
-frontend - React UI for interacting with the API  
-database - PostgreSQL container managed with Docker Compose
+## Key Features
+- Stateless JWT-based authentication
+- Wallet operations (deposit, withdraw, balance tracking)
+- Transaction history tracking
+- Reward system with cooldown logic
+- Inventory system for user-owned items
+- Containerized deployment with Docker
+- Automated CI/CD pipeline
 
 ---
 
-## Running with Docker
+## Architecture
 
-Make sure Docker is installed.
+Layered architecture:
 
-Start the full stack application:
+- Controller
+- Service
+- Repository
+- Security
+- Exception Handling
 
-```bash
-docker compose up --build
-```
+---
 
-Services:
+## CI/CD Pipeline
 
-Frontend  
-http://localhost:5173
+Pipeline is triggered on every push to the main branch:
 
-Backend API  
-http://localhost:8080
-
-PostgreSQL  
-localhost:5432
+- Runs Maven tests
+- Builds Docker image
+- Deploys to AWS EC2 via SSH
 
 ---
 
 ## API Endpoints
 
 ### Auth
-
-POST /auth/register  
-POST /auth/login
+- POST /auth/register
+- POST /auth/login
 
 ### Wallet
-
-GET /wallet/balance  
-POST /wallet/deposit  
-POST /wallet/withdraw  
-POST /wallet/reward  
-GET /wallet/transactions
-
----
-
-## Demo Gameplay
-
-Users can:
-
-- Click the coin to earn rewards
-- Purchase items using wallet balance
-- View transaction history
+- GET /wallet/balance
+- POST /wallet/deposit
+- POST /wallet/withdraw
+- POST /wallet/reward
+- GET /wallet/transactions
+- GET /wallet/inventory
 
 ---
 
-## Future Improvements
+## Running Locally
 
-- CI/CD pipeline
-- Cloud deployment
-- API documentation (Swagger)
+```bash
+docker compose up --build
+```
+
+- Frontend: http://localhost:5173
+- Backend: http://localhost:8080
+
+---
+
+## Notes
+This project was built to simulate a production-ready backend system and explore real-world architecture, deployment, and CI/CD practices.
+
+---
