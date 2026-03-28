@@ -261,7 +261,7 @@ function App() {
           <div className="mt-8 flex gap-3 justify-center">
 
           <button
-            onClick={() => buyItem(3), "Apple"}
+            onClick={() => buyItem(3, "Apple")}
             disabled={!loggedIn}
             className="flex flex-col items-center bg-white/20 p-4 rounded-xl hover:bg-white/30 hover:scale-105 transition"
             >
@@ -271,7 +271,7 @@ function App() {
           </button>
 
           <button
-            onClick={() => buyItem(10), "Burger"}
+            onClick={() => buyItem(10, "Burger")}
             disabled={!loggedIn}
             className="flex flex-col items-center bg-white/20 p-4 rounded-xl hover:bg-white/30 hover:scale-105 transition"
             >
@@ -281,7 +281,7 @@ function App() {
           </button>
 
           <button
-            onClick={() => buyItem(20), "Pizza"}
+            onClick={() => buyItem(20, "Pizza")}
             disabled={!loggedIn}
             className="flex flex-col items-center bg-white/20 p-4 rounded-xl hover:bg-white/30 hover:scale-105 transition"
             >
