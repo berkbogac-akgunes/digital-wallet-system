@@ -116,6 +116,7 @@ function App() {
     setBalance(0)
     setTransactions([])
     setUserEmail("")
+    setInventory([])
   }
 
   async function handleLogin(){
