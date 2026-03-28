@@ -102,6 +102,7 @@ function App() {
       await loadBalance();
       await loadTransactions();
       await loadInventory();
+      showMessage(`🛒 ${itemName} satın aldın!`)
     } catch(e){
       showMessage(e.message)
     }
@@ -220,7 +221,7 @@ function App() {
     </div>
 
       {message && (
-                <div className="bg-green-500 text-white px-6 py-2 rounded-xl shadow-lg animate-bounce">
+                <div className="bg-green-500 text-white px-6 py-2 mt-4 rounded-xl shadow-lg animate-bounce">
                   {message}
                 </div>
               )}
